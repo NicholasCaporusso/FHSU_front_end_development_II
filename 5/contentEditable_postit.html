@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>A post-it application</title>
+<style>
+[contenteditable=true]:empty:before{
+	content:attr(placeholder);
+	display:block;
+	color:#999;
+}
+</style>
+</head>
+<body>
+<h1>Your notes</h1>
+<div id="notes" contenteditable="true" placeholder="Enter your notes here"></div>
+<script>
+var notes=document.getElementById('notes');
+
+// load information
+notes.innerHTML=localStorage.getItem('notes');
+
+// save information
+notes.addEventListener('blur',function(){
+	localStorage.setItem('notes',this.innerHTML);
+});
+notes.addEventListener('mouseover',function(){
+	notes.style.border='1px solid #000';
+});
+notes.addEventListener('mouseout',function(){
+	notes.style.border='1px solid #FFF';
+});
+</script>
+</body>
+</html>

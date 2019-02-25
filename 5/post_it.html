@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+	<style>
+	[contenteditable=true]{
+		border:1px solid #FFF;
+	}
+	[contenteditable=true]:empty:before{
+		content:attr(placeholder);
+		display:block;
+		color:#999;
+	}
+	[contenteditable=true]:hover{
+		border:1px solid #000;
+	}
+	</style>
+  </head>
+  <body>
+  <style contenteditable="true">
+	body{background-color:#FFF;}
+  </style>
+	<div class="container">
+		<h3>Your notes</h3>
+		<table class="table table-striped">
+		  <thead>
+			<tr>
+			  <th scope="col">Note</th>
+			</tr>
+		  </thead>
+		  <tbody id="notes-table">
+		  </tbody>
+		</table>
+		<button class="btn btn-primary btn-add-note">Add note</button>
+	</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script>
+	if(localStorage.getItem('notes')==undefined){
+		localStorage.setItem('notes',JSON.stringify({max_id:0,notes:[]}));
+	}
+	var notes=JSON.parse(localStorage.getItem('notes'));
+	$.each(notes.notes,function(index,value){
+		$('#notes-table').append('<tr><td scope="row lead" contenteditable="true" placeholder="Add some information here" data-nid="'+value.id+'">'+value.content+'</td></tr>');
+	});
+	$('[contenteditable=true]').on('blur',function(){
+		console.log($(this).text());
+		var note_id=$(this).data('nid');
+		for(i=0;i<notes.notes.length;i++){
+			if(notes.notes[i].id==note_id) notes.notes[i].content=$(this).html();
+		};
+		localStorage.setItem('notes',JSON.stringify(notes));
+	});
+	$('.btn-add-note').on('click',function(){
+		notes.max_id++;
+		$('#notes-table').append('<tr><td scope="row lead" contenteditable="true" placeholder="Add some information here" data-nid="'+notes.max_id+'"></td></tr>');
+		notes.notes.push({id:notes.max_id,content:''});
+		localStorage.setItem('notes',JSON.stringify(notes));
+	});
+	</script>
+  </body>
+</html>
