@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+	<div class="container">
+       <h1 class=" stilified">Hello, world!</h1>
+		<p class="lead stilified"> Hello world</p>
+		<p class=" stilified"> Hello world2</p>
+		<button class="stilified"> Hello world3</button>
+	</div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+	(function($){
+		$.fn.backgroundify=function(options){
+			var settings=$.extend(
+				{color:"#FC0"},
+				options
+			)
+		
+			$(function(){
+				$('body').css('background-color',settings.color);
+			});
+		}
+	}(jQuery));
+	
+	(function($){
+		var color="#FC0";
+		$.fn.buttonify=function(){
+			$(function(){
+				$('button.stilified').addClass('btn btn-primary');
+			});
+			$('button.stilified').on('click',function(){
+				alert($(this).text());
+			});
+		}
+	}(jQuery));
+	
+	$().backgroundify({color:"#F30"});
+	$().buttonify();
+	</script>
+  </body>
+</html>

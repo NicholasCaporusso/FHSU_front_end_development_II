@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+	<div class="container">
+       <h1>Hello, world!</h1>
+		<p class="lead"> Hello world</p>
+	</div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>/*
+	$('h1').css("color","green");
+	$('p').css("color","green");
+	*/
+	
+	$.fn.greenify=function(){
+		this.css("color","green");
+		return this;
+	}
+	
+	$.fn.underline=function(){
+		this.css("text-decoration","underline");
+		return this;
+	}
+	
+	$('h1').underline();
+	$('p').greenify();
+	
+	$.fn.shuffle=function(){
+		var text=this.text();
+		var shuffled = text.split('').sort(function(){return 0.5-Math.random()}).join('');
+		this.text(shuffled);
+		return this;
+	}
+	$('p').shuffle();
+	
+	$('p').removeClass("lead").addClass("btn btn-primary").underline();
+	
+	$('h1').underline().greenify().shuffle();
+	
+	</script>
+  </body>
+</html>

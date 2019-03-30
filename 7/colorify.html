@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+	<div class="container">
+       <h1 class=" stilified">Hello, world!</h1>
+		<p class="lead stilified"> Hello world</p>
+		<p class=" stilified"> Hello world2</p>
+		<p class=" stilified"> Hello world3</p>
+	</div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+	$('h1').on('click',function(){
+		alert($(this).text());
+	});
+	
+	(function($){
+		var color="#FC0";
+		$.fn.stylify=function(action){
+			return this.each(function(){
+				switch(action){
+					case 'colorify': colorify($(this),color);break;
+					case 'underline': underline($(this));break;
+					case 'shuffle': shuffle($(this));break;
+				}
+			});
+		}
+		function colorify(elem,color){
+			elem.css("color",color);
+		}
+		function underline(elem){
+			elem.css("text-decoration","underline");
+		}
+		function shuffle(elem){
+			var shuffled = elem.text().split('').sort(function(){return 0.5-Math.random()}).join('');
+			elem.text(shuffled);
+		}
+	}(jQuery));
+	
+	color="#F30";
+	
+	$('.stilified').stylify('shuffle').stylify('underline');
+	
+	</script>
+  </body>
+</html>
