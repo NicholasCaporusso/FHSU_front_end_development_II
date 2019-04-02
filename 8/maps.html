@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+	var map;
+	function initMap(){
+		map = new google.maps.Map(document.getElementById('map'), {
+		  center: {lat:38.8782, lng: -99.3348},
+		  zoom: 4
+		});
+		$.get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson',function(data){
+			showEarthquakes(data);
+		});
+	}
+	
+	function showEarthquakes(data){
+		for(i=0;i<data.features.length;i++){
+			var loc={lat:data.features[i].geometry.coordinates[1],lng:data.features[i].geometry.coordinates[0]};
+			console.log(data.features[i]);
+			var marker = new google.maps.Marker({
+				position:loc,
+				map: map,
+				title:data.features[i].properties.title
+			});
+		}
+	}
+    </script>
+	
+	
+	
+	
+	
+	
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+    async defer></script>
+  </body>
+</html>
