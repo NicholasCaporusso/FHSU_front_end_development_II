@@ -7,30 +7,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
-    <title>Authentication</title>
-	<style>
-	.hide{display:none}
-	</style>
+    <title>Contact us</title>
   </head>
   <body>
   <div class="container">
-    <h1>Sign up</h1>
-<div id="alert-signup" class="alert alert-danger hide" role="alert">
-</div>
-<form id="form-signup">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="signup_email" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="signup_password" placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<hr />
     <h1>Sign in</h1>
 <div id="alert-signin" class="alert alert-danger hide" role="alert">
 </div>
@@ -46,14 +27,36 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <hr />
-<button id="signout" class="btn btn-primary">Signout</button>
+    <h1>Contact us</h1>
+<form id="contact-form" method="POST">
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Email address</label>
+    <input type="email" class="form-control" name="email" placeholder="name@example.com" required />
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">First name</label>
+    <input type="text" class="form-control" name="first_name" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Last name</label>
+    <input type="text" class="form-control" name="last_name" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Message</label>
+    <textarea class="form-control" name="message" rows="3"></textarea>
+  </div>
+  <div class="form-group text-right">
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </div>
+</form>
 	</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+	
+<script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
 <script>
 var user;
   // Initialize Firebase
@@ -66,6 +69,48 @@ var user;
     messagingSenderId: "83551100344"
   };
   firebase.initializeApp(config);
+  var db=firebase.firestore();
+  
+  $(document).on('submit','#contact-form',function(event){
+	event.preventDefault();
+	db.collection("contacts").doc().set({
+		email: $(this).find('input[name=email]').val(),
+		first_name: $(this).find('input[name=first_name]').val(),
+		last_name: $(this).find('input[name=last_name]').val(),
+		message: $(this).find('textarea[name=message]').val()
+	})
+	.then(function() {
+		console.log("Document successfully written!");
+	})
+	.catch(function(error) {
+		console.error("Error writing document: ", error);
+	});
+  });
+  
+  
+  
+  /* Retrieve one document by ID
+  var docRef = db.collection("contacts").doc("9a1ZnCtKCLSotBfeVAEQ");
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+}); */
+
+var contactRef=db.collection("contacts");
+contactRef.where('email','==','ncaporusso@gmail.com');
+
+contactRef.get().then(function(querySnapshot){
+	if(querySnapshot.size>0){
+		console.log(querySnapshot.docs[0].data());
+	}else console.log('no records found');
+});
+
   var auth=firebase.auth();
   
   $(document).on('submit','#form-signup',function(event){
